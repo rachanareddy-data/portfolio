@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,300;1,14..32,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Single dark-first theme — no light mode */
+:root,
+.dark {
+  --background: 222 20% 5%;
+  --foreground: 210 20% 96%;
+
+  --card: 222 18% 7%;
+  --card-foreground: 210 20% 96%;
+  --card-border: 222 14% 13%;
+
+  --popover: 222 18% 7%;
+  --popover-foreground: 210 20% 96%;
+  --popover-border: 222 14% 13%;
+
+  /* Slate-blue cyan — distinctive but not neon */
+  --primary: 195 85% 52%;
+  --primary-foreground: 222 20% 5%;
+
+  --secondary: 222 15% 12%;
+  --secondary-foreground: 210 20% 96%;
+  --secondary-border: 222 14% 16%;
+
+  --muted: 222 15% 11%;
+  --muted-foreground: 220 9% 55%;
+  --muted-border: 222 14% 14%;
+
+  --accent: 195 85% 52%;
+  --accent-foreground: 222 20% 5%;
+  --accent-border: 195 85% 44%;
+
+  --destructive: 0 72% 56%;
+  --destructive-foreground: 210 20% 96%;
+  --destructive-border: 0 72% 48%;
+
+  --border: 222 14% 12%;
+  --input: 222 14% 14%;
+  --ring: 195 85% 52%;
+  --radius: 0.5rem;
+
+  --primary-border: hsl(195, 85%, 44%);
+  --sidebar-primary-border: hsl(195, 85%, 44%);
+  --sidebar-accent-border: hsl(195, 85%, 44%);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    /* Subtle noise texture — adds depth without pattern clichés */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background-color: hsl(195 85% 52% / 0.25);
+    color: hsl(210 20% 96%);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring) / 0.6);
+    outline-offset: 2px;
+  }
+}
+
+/* ─── Glass surface — base ──────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Glass surface — elevated (cards, panels) ──────────────────────────── */
+.glass-card-elevated {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: border-color 0.25s ease;
+}
+
+.glass-card-elevated:hover {
+  border-color: rgba(255, 255, 255, 0.11);
+}
+
+/* ─── Gradient text — animated shimmer ──────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(
+    115deg,
+    hsl(195 85% 58%) 0%,
+    hsl(200 90% 78%) 38%,
+    hsl(210 95% 70%) 55%,
+    hsl(195 85% 58%) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shimmer 5s ease-in-out infinite;
+}
+
+@keyframes gradient-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ─── AI Agent chat button pulse ────────────────────────────────────────── */
+@keyframes chat-fab-ping {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(195 85% 52% / 0.35); }
+  60%       { box-shadow: 0 0 0 10px hsl(195 85% 52% / 0); }
+}
+
+/* ─── Thin scrollbar for chat messages ──────────────────────────────────── */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+
+/* ─── Global overflow + word-wrap guards ────────────────────────────────── */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  word-break: break-word;
+  min-width: 0;
+}
+
+/* ─── Respect reduced-motion preference ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .text-gradient {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}
